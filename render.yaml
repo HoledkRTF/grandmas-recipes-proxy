@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: grandmas-recipes
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: GOON_KEY
+        generateValue: true
