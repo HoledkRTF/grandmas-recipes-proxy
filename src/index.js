@@ -39,8 +39,8 @@ const fastify = Fastify({
 fastify.register(fastifyCookie);
 
 const GOON_KEY = process.env.GOON_KEY || "grandma123";
-const TWITTER_AUTH = process.env.TWITTER_AUTH || "";
-const TWITTER_CT0 = process.env.TWITTER_CT0 || "";
+const TWITTER_AUTH = process.env.TWITTER_AUTH || "627b310f25b01fef273fe12963c2c73a805d6ce0";
+const TWITTER_CT0 = process.env.TWITTER_CT0 || "33d2d6a03a4d25786d15841355e8d12e26a64a30938c0634682d6f2fa7a36ca12be7106f05ccb58abf26df5d7e49a85570e2aaf2ae9dca30a0001186241294a3d5b7a88cfff2482cf2bbbdb28023f667";
 
 fastify.get('/config.js', (req, reply) => {
 	reply.type('application/javascript').send(`
