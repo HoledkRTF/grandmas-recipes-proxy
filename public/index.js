@@ -19,7 +19,13 @@ async function initProxy() {
 	try {
 		await registerSW();
 	} catch (err) {
-		error.textContent = "Failed to register service worker. " + err.toString();
+		document.querySelector('.spinner').style.display = 'none';
+		error.innerHTML = `
+			<strong>Failed to register service worker.</strong><br><br>
+			If you're using an in-app browser (like Telegram or Instagram), this won't work.<br>
+			Please tap the compass icon to open this link directly in <strong>Safari</strong>.<br><br>
+			<small>${err.toString()}</small>
+		`;
 		throw err;
 	}
 
