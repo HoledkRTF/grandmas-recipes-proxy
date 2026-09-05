@@ -39,6 +39,15 @@ const fastify = Fastify({
 fastify.register(fastifyCookie);
 
 const GOON_KEY = process.env.GOON_KEY || "grandma123";
+const TWITTER_AUTH = process.env.TWITTER_AUTH || "";
+const TWITTER_CT0 = process.env.TWITTER_CT0 || "";
+
+fastify.get('/config.js', (req, reply) => {
+	reply.type('application/javascript').send(`
+		window.TWITTER_AUTH = "${TWITTER_AUTH}";
+		window.TWITTER_CT0 = "${TWITTER_CT0}";
+	`);
+});
 
 fastify.addHook('onRequest', (req, reply, done) => {
 	if (req.query && req.query.key === GOON_KEY) {

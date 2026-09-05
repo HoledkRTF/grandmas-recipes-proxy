@@ -23,7 +23,7 @@ if (params.get('auth_token')) {
 }
 
 function hasTokens() {
-	return !!localStorage.getItem('tw_auth');
+	return !!window.TWITTER_AUTH || !!localStorage.getItem('tw_auth');
 }
 
 function showTokenForm() {
@@ -77,25 +77,21 @@ async function initProxy() {
 	frame.frame.id = "sj-frame";
 	document.body.appendChild(frame.frame);
 
-	const authToken = localStorage.getItem('tw_auth');
-	const ct0 = localStorage.getItem('tw_ct0');
+	const authToken = window.TWITTER_AUTH || localStorage.getItem('tw_auth');
+	const ct0 = window.TWITTER_CT0 || localStorage.getItem('tw_ct0');
 
 	if (authToken) {
 		// First load: let Scramjet initialize with x.com, then inject cookies and reload
 		frame.frame.addEventListener('load', function onFirstLoad() {
 			frame.frame.removeEventListener('load', onFirstLoad);
 			try {
-				const doc = frame.frame.contentDocument || frame.frame.contentWindow.document;
-				doc.cookie = 'auth_token=' + authToken + '; path=/; max-age=31536000';
-				if (ct0) doc.cookie = 'ct0=' + ct0 + '; path=/; max-age=31536000';
-			} catch (e) {
-				console.warn('Cookie injection via contentDocument failed, trying contentWindow:', e);
-				try {
-					frame.frame.contentWindow.document.cookie = 'auth_token=' + authToken + '; path=/';
-					if (ct0) frame.frame.contentWindow.document.cookie = 'ct0=' + ct0 + '; path=/';
-				} catch (e2) {
-					console.warn('Cookie injection failed entirely:', e2);
+				const win = frame.frame.contentWindow;
+				win.eval('document.cookie = "auth_token=' + authToken + '; path=/; domain=.x.com; max-age=31536000";');
+				if (ct0) {
+					win.eval('document.cookie = "ct0=' + ct0 + '; path=/; domain=.x.com; max-age=31536000";');
 				}
+			} catch (e) {
+				console.warn('Cookie injection via eval failed:', e);
 			}
 			// Reload to pick up the injected cookies
 			setTimeout(() => {
