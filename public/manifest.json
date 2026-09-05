@@ -2,7 +2,7 @@
   "name": "Grandma's Recipes",
   "short_name": "Recipes",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#1a1a1a",
   "theme_color": "#1da1f2",
   "icons": [
