@@ -6,25 +6,7 @@ const scramjet = new ScramjetServiceWorker();
 async function handleRequest(event) {
 	await scramjet.loadConfig();
 	if (scramjet.route(event)) {
-		let res = await scramjet.fetch(event);
-		if (!res) return fetch(event.request);
-		
-		const headers = new Headers(res.headers);
-		headers.set("Cross-Origin-Resource-Policy", "cross-origin");
-		
-		if ([101, 204, 205, 304].includes(res.status)) {
-			return new Response(null, {
-				status: res.status,
-				statusText: res.statusText,
-				headers: headers
-			});
-		}
-		
-		return new Response(res.body, {
-			status: res.status,
-			statusText: res.statusText,
-			headers: headers
-		});
+		return scramjet.fetch(event);
 	}
 	return fetch(event.request);
 }
