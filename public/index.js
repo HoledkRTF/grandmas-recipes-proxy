@@ -39,11 +39,11 @@ async function initProxy() {
 	frame.frame.id = "sj-frame";
 	document.body.appendChild(frame.frame);
 	
-	// Once the frame loads the target, show it and hide the loading screen
-	frame.frame.onload = () => {
+	// Show frame immediately, rely on internal loading state
+	setTimeout(() => {
 		document.getElementById("loading").style.display = "none";
 		frame.frame.style.display = "block";
-	};
+	}, 1500); // Give it a tiny bit of time to init
 	
 	frame.go(url);
 }
