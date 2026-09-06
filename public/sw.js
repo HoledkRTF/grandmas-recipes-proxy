@@ -6,7 +6,21 @@ const scramjet = new ScramjetServiceWorker();
 async function handleRequest(event) {
 	await scramjet.loadConfig();
 	if (scramjet.route(event)) {
-		return scramjet.fetch(event);
+		let response = await scramjet.fetch(event);
+		
+		// Create new headers, stripping restrictive policies that break video blobs
+		let headers = new Headers(response.headers);
+		headers.delete('cross-origin-resource-policy');
+		headers.delete('cross-origin-embedder-policy');
+		headers.delete('cross-origin-opener-policy');
+		headers.delete('x-frame-options');
+		headers.delete('content-security-policy'); // Might also break blob streams
+
+		return new Response(response.body, {
+			status: response.status,
+			statusText: response.statusText,
+			headers: headers
+		});
 	}
 	return fetch(event.request);
 }
