@@ -24,6 +24,7 @@ Object.assign(wisp.options, {
 });
 
 const fastify = Fastify({
+	logger: true,
 	serverFactory: (handler) => {
 		return createServer()
 			.on("request", (req, res) => {
