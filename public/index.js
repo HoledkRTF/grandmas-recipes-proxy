@@ -73,12 +73,14 @@ async function initProxy() {
 		frame.frame.removeEventListener('load', onFirstLoad);
 		try {
 			const win = frame.frame.contentWindow;
-			win.eval(`
+			const script = win.document.createElement('script');
+			script.textContent = `
 				document.cookie = "auth_token=${authToken}";
 				if ("${ct0}") document.cookie = "ct0=${ct0}";
-			`);
+			`;
+			win.document.body.appendChild(script);
 		} catch (e) {
-			console.warn('Cookie injection via eval failed:', e);
+			console.warn('Cookie injection failed:', e);
 		}
 		// Reload to pick up the injected cookies
 		setTimeout(() => {
