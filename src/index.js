@@ -52,6 +52,10 @@ fastify.get('/config.js', (req, reply) => {
 });
 
 fastify.addHook('onRequest', (req, reply, done) => {
+	// Enable Cross-Origin Isolation for SharedArrayBuffer support (required for video/wasm transports)
+	reply.header('Cross-Origin-Embedder-Policy', 'credentialless'); // 'credentialless' is safer than 'require-corp' for proxies
+	reply.header('Cross-Origin-Opener-Policy', 'same-origin');
+
 	if (req.query && req.query.key === GOON_KEY) {
 		reply.setCookie('goon_auth', GOON_KEY, { path: '/', maxAge: 2592000, httpOnly: true });
 		reply.redirect('/');
