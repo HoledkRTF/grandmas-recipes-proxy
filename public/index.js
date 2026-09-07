@@ -31,8 +31,8 @@ async function initProxy() {
 		location.host +
 		"/wisp/";
 	
-	if ((await connection.getTransport()) !== "/libcurl/index.mjs") {
-		await connection.setTransport("/libcurl/index.mjs", [{ wisp: wispUrl }]);
+	if ((await connection.getTransport()) !== "/epoxy/index.mjs") {
+		await connection.setTransport("/epoxy/index.mjs", [{ wisp: wispUrl }]);
 	}
 
 	const iframe = document.createElement("iframe");
