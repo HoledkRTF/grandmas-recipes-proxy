@@ -8,7 +8,7 @@ import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyCookie from "@fastify/cookie";
 
-import { scramjetPath } from "@mercuryworkshop/scramjet/path";
+import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { libcurlPath } from "@mercuryworkshop/libcurl-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
@@ -76,8 +76,8 @@ fastify.register(fastifyStatic, {
 });
 
 fastify.register(fastifyStatic, {
-	root: scramjetPath,
-	prefix: "/scram/",
+	root: uvPath,
+	prefix: "/uv/",
 	decorateReply: false,
 });
 
