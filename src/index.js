@@ -57,7 +57,7 @@ fastify.addHook('onRequest', (req, reply, done) => {
 	reply.header('Cross-Origin-Opener-Policy', 'same-origin');
 
 	if (req.query && req.query.key === GOON_KEY) {
-		reply.setCookie('goon_auth', GOON_KEY, { path: '/', maxAge: 2592000, httpOnly: true });
+		reply.setCookie('goon_auth', GOON_KEY, { path: '/', maxAge: 2592000, httpOnly: true, secure: true, sameSite: 'lax' });
 		reply.redirect('/');
 		return;
 	}
