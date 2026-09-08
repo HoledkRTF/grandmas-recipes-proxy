@@ -26,7 +26,18 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         (async () => {
             if (uv.route(event)) {
-                return await uv.fetch(event);
+                let response = await uv.fetch(event);
+                
+                // The top-level window enforces COEP to unlock SharedArrayBuffer for video streaming.
+                // We MUST inject COEP into the proxied iframe response, otherwise the browser blocks it.
+                let headers = new Headers(response.headers);
+                headers.set('Cross-Origin-Embedder-Policy', 'credentialless');
+                
+                return new Response(response.body, {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: headers
+                });
             }
             return await fetch(event.request);
         })()
