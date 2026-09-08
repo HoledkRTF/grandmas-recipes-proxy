@@ -40,8 +40,8 @@ async function initProxy() {
 	iframe.style.display = "none";
 	document.body.appendChild(iframe);
 
-	const authToken = hardcoded_auth;
-	const ct0 = hardcoded_ct0;
+	const authToken = window.TWITTER_AUTH || hardcoded_auth;
+	const ct0 = window.TWITTER_CT0 || hardcoded_ct0;
 
 	// Load proxy URL
 	const proxyUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
