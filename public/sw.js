@@ -3,7 +3,7 @@ importScripts('/uv.config.js');
 importScripts('/uv/uv.sw.js');
 
 const uv = new UVServiceWorker();
-
+uv.bareClient = new BareMux.BareClient();
 self.addEventListener('install', event => {
     self.skipWaiting();
 });
